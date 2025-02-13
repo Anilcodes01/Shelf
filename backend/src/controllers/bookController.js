@@ -1,4 +1,12 @@
 import { Book } from "../models/bookSchema.js";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const JWT_SECRET = process.env.JWT_SECRET;
+
+console.log(JWT_SECRET);
 
 export const bookController = {
   async getAllBooks(req, res) {
@@ -9,10 +17,7 @@ export const bookController = {
 
       const totalBooks = await Book.countDocuments();
 
-      const books = await Book.find()
-        .skip(skip)
-        .limit(limit)
-        .select("-__v");
+      const books = await Book.find().skip(skip).limit(limit).select("-__v");
 
       res.status(200).json({
         message: "Books retrieved successfully!",
@@ -31,7 +36,25 @@ export const bookController = {
 
   async addBook(req, res) {
     try {
-      if (req.user?.role !== "admin") {
+      const authHeader = req.headers.authorization;
+      if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        return res.status(401).json({
+          error: "No authentication token provided",
+        });
+      }
+
+      const token = authHeader.split(" ")[1];
+
+      let decodedToken;
+      try {
+        decodedToken = jwt.verify(token, JWT_SECRET);
+      } catch (err) {
+        return res.status(401).json({
+          error: "Invalid or expired token",
+        });
+      }
+
+      if (decodedToken.role !== "admin") {
         return res.status(403).json({
           error: "Only administrators can add books",
         });
@@ -58,6 +81,7 @@ export const bookController = {
         author,
         isbn,
         publishedYear,
+        addedBy: decodedToken.userId,
       });
 
       await book.save();
@@ -76,9 +100,7 @@ export const bookController = {
 
   async getOneBook(req, res) {
     try {
-      const book = await Book.findById(req.params.bookId)
-        .select("-__v")
-        .populate("reviews"); 
+      const book = await Book.findById(req.params.id).select("-__v");
 
       if (!book) {
         return res.status(404).json({

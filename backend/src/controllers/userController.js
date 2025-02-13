@@ -1,6 +1,11 @@
 import { User } from "../models/userSchema.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const JWT_SECRET = process.env.JWT_SECRET;
 
 export const userController = {
   async register(req, res) {
@@ -48,7 +53,7 @@ export const userController = {
           username: user.username,
           name: user.name,
         },
-        process.env.JWT_SECRET,
+        JWT_SECRET,
         { expiresIn: "2d" }
       );
 
@@ -104,8 +109,8 @@ export const userController = {
           username: user.username,
           name: user.name,
         },
-        process.env.JWT_SECRET,
-        { expiresIn: "2d" }
+        JWT_SECRET,
+        { expiresIn: "24h" }
       );
 
       const userWithoutPassword = user.toObject();

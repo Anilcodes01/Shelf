@@ -6,7 +6,7 @@ export const reviewController = {
   async getReviews(req, res) {
     try {
       const reviews = await Review.find({ book: req.params.bookId })
-        .populate("reviewedBy", "name rating timestamp")
+        .populate("userId", "name rating timestamp")
         .sort({ timeStamp: -1 });
 
       res.json(reviews);
