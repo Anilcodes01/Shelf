@@ -13,20 +13,13 @@ const app = express();
 connectDB();
 
 app.use(cors({
-  origin: [
-    'http://localhost:5173',
-    'https://shelf-fq8x.vercel.app',
-    'https://shelf-zeta.vercel.app'
-  ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  origin: ['http://localhost:5173', "https://shelf-fq8x.vercel.app"],
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
-  preflightContinue: true,
-  optionsSuccessStatus: 200
-}));
-app.use(express.json());
+}))
 
-app.options('*', cors());
+app.use(express.json());
 
 app.use("/api/books", bookRoutes);
 app.use("/api/users", userRoutes);
