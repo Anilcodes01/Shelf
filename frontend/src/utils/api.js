@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: 'https://shelf-zeta.vercel.app/api',
+  baseURL: 'https://shelf-zeta.vercel.app',
   withCredentials: true,
 });
 
