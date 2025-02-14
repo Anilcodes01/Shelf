@@ -4,6 +4,7 @@ export const bookMiddleware = (req, res, next) => {
   const schema = Joi.object({
     title: Joi.string().required(),
     description: Joi.string(),
+    coverImage: Joi.string().required(),
     author: Joi.string().required(),
     isbn: Joi.string().required(),
     publishedYear: Joi.number(),

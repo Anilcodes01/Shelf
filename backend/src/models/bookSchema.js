@@ -9,6 +9,10 @@ const bookSchema = new mongoose.Schema(
     description: {
       type: String,
     },
+    coverImage: {
+      type: String,
+      required: true,
+    },
     author: {
       type: String,
       required: true,

@@ -5,7 +5,7 @@ import { User } from "../models/userSchema.js";
 export const reviewController = {
   async getReviews(req, res) {
     try {
-      const reviews = await Review.find({ book: req.params.bookId })
+      const reviews = await Review.find({ bookId: req.params.bookId })
         .populate("userId", "name rating timestamp")
         .sort({ timeStamp: -1 });
 

@@ -60,11 +60,11 @@ export const bookController = {
         });
       }
 
-      const { title, description, author, isbn, publishedYear } = req.body;
+      const { title, description, coverImage, author, isbn, publishedYear } = req.body;
 
-      if (!title || !author || !isbn) {
+      if (!title || !author || !isbn || !coverImage) {
         return res.status(400).json({
-          error: "Title, author, and ISBN are required fields",
+          error: "Title, author, coverImage, and ISBN are required fields",
         });
       }
 
@@ -78,6 +78,7 @@ export const bookController = {
       const book = new Book({
         title,
         description,
+        coverImage,
         author,
         isbn,
         publishedYear,

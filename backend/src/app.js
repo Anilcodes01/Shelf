@@ -19,13 +19,6 @@ app.use("/api/books", bookRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/reviews", reviewRoutes);
 
-app.use((err, res) => {
-  console.err(err.stack);
-  res.status(500).json({
-    error: "Something went wrong...!",
-  });
-});
-
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🔥Server is running on port ${PORT}`);
