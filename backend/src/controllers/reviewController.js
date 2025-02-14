@@ -25,7 +25,7 @@ export const reviewController = {
       const userExists = await User.findById(userId);
 
       if (!bookExists || !userExists) {
-        return res.status(404).json({
+        return res.status(400).json({
           error: "Book or user with this id not found...!",
         });
       }

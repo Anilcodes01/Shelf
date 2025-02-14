@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Star, X } from "lucide-react";
 import { useAuth } from "../contexts/authContext";
 import { jwtDecode } from "jwt-decode";
-import { submitReview } from "../utils/api"; 
+import { submitReview } from "../utils/api";
 
 const ReviewModal = ({ isOpen, onClose, bookId, onReviewSubmitted }) => {
   const [rating, setRating] = useState(0);
@@ -37,11 +37,16 @@ const ReviewModal = ({ isOpen, onClose, bookId, onReviewSubmitted }) => {
       if (!userId) {
         throw new Error("Authentication information not found");
       }
+      
+      const reviewData = {
+        bookId,
+        userId,
+        rating,
+        comment,
+      };
 
-      console.log("Submitting review with userId:", userId);
-
-      const reviewData = await submitReview(bookId, userId, rating, comment); 
-      onReviewSubmitted(reviewData.addReview);
+      const response = await submitReview(reviewData);
+      onReviewSubmitted(response.addReview);
       onClose();
       setRating(0);
       setComment("");
@@ -57,8 +62,12 @@ const ReviewModal = ({ isOpen, onClose, bookId, onReviewSubmitted }) => {
       <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 z-50">
         <div className="bg-white rounded-xl p-8 max-w-md w-full shadow-2xl transform transition-all">
           <div className="text-center">
-            <h2 className="text-2xl font-serif font-semibold mb-4">Authentication Required</h2>
-            <p className="text-gray-600 mb-6">Please log in to share your thoughts about this book.</p>
+            <h2 className="text-2xl font-serif font-semibold mb-4">
+              Authentication Required
+            </h2>
+            <p className="text-gray-600 mb-6">
+              Please log in to share your thoughts about this book.
+            </p>
             <button
               onClick={onClose}
               className="px-6 py-3 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors shadow-md"
@@ -75,7 +84,9 @@ const ReviewModal = ({ isOpen, onClose, bookId, onReviewSubmitted }) => {
     <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-xl p-8 shadow-2xl max-w-md w-full transform transition-all">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-serif font-semibold">Share Your Thoughts</h2>
+          <h2 className="text-2xl font-serif font-semibold">
+            Share Your Thoughts
+          </h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:bg-amber-50 rounded-full p-2 transition-colors"
@@ -86,7 +97,9 @@ const ReviewModal = ({ isOpen, onClose, bookId, onReviewSubmitted }) => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-3">
-            <label className="block text-lg font-serif font-medium text-gray-700">Your Rating</label>
+            <label className="block text-lg font-serif font-medium text-gray-700">
+              Your Rating
+            </label>
             <div className="flex justify-center space-x-2">
               {[1, 2, 3, 4, 5].map((star) => (
                 <button
@@ -110,7 +123,9 @@ const ReviewModal = ({ isOpen, onClose, bookId, onReviewSubmitted }) => {
           </div>
 
           <div className="space-y-3">
-            <label className="block text-lg font-serif font-medium text-gray-700">Your Review</label>
+            <label className="block text-lg font-serif font-medium text-gray-700">
+              Your Review
+            </label>
             <textarea
               value={comment}
               onChange={(e) => setComment(e.target.value)}
