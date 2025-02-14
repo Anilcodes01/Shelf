@@ -5,7 +5,7 @@ export default function BookCard({book}) {
   const {_id, title, author, description, publishedYear, coverImage} = book;
     
   return (
-    <div className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden">
+    <div className=" transform bg-transparent  transition-transform hover:-translate-y-1 hover:shadow-lg border border-gray-200 rounded-xl shadow-sm  duration-300 overflow-hidden">
       <Link to={`/books/${_id}`} className="block h-full">
         <div className="aspect-[3/4] relative overflow-hidden">
           <img

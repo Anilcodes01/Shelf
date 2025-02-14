@@ -3,7 +3,7 @@ import { createContext, useState, useContext, ReactNode } from "react";
 const BookContext = createContext();
 
 export const BookProvider = ({ children }) => {
-  const [books, setBooks] = useState([]); // Initialize as empty array
+  const [books, setBooks] = useState([]); 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 

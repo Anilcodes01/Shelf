@@ -11,19 +11,11 @@ console.log(JWT_SECRET);
 export const bookController = {
   async getAllBooks(req, res) {
     try {
-      const page = parseInt(req.query.page) || 1;
-      const limit = parseInt(req.query.limit) || 10;
-      const skip = (page - 1) * limit;
-
-      const totalBooks = await Book.countDocuments();
-
-      const books = await Book.find().skip(skip).limit(limit).select("-__v");
+      const books = await Book.find().select("-__v");
 
       res.status(200).json({
         message: "Books retrieved successfully!",
-        currentPage: page,
-        totalPages: Math.ceil(totalBooks / limit),
-        totalBooks,
+        totalBooks: books.length,
         books,
       });
     } catch (error) {
